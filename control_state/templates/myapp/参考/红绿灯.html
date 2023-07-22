@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style>
+			* {
+				margin: 0px;
+				padding: 0px;
+			}
+ 
+			.all {
+				width: 100%;
+				height: 80vh;
+				background-color: black;
+				padding-top: 20vh
+			}
+ 
+			.nos {
+				width: 350px;
+				border: 5px solid gray;
+				display: flex;
+				margin: auto;
+				border-radius: 15em;
+				padding: 10px;
+			}
+ 
+			.no1 {
+				background-color: red;
+				width: 100px;
+				height: 100px;
+				margin: auto;
+				border-radius: 15em;
+				background: radial-gradient(circle 100px,red,black);
+				border: 2px solid red;
+			}
+ 
+			.no2 {
+				background-color: green;
+				width: 100px;
+				height: 100px;
+				margin: auto;
+				border-radius: 15em;
+				background: radial-gradient(circle 100px,green,black);
+				border: 2px solid green;
+			}
+ 
+			.no3 {
+				background-color: yellow;
+				width: 100px;
+				height: 100px;
+				margin: auto;
+				border-radius: 15em;
+				background: radial-gradient(circle 100px,yellow,black);
+				border: 2px solid yellow;
+			}
+			.gan{
+				width: 3%;
+				height: 50vh;
+				margin: auto;
+				border: 5px solid gray;
+				border-radius: 0 0 1em 1em;
+			}
+			.open{
+				width: 5px;
+				height: 2vh;
+				border: 1px solid gray;
+				background-color: green;
+				border-radius: 0 0.5em 0.5em 0;
+				position: absolute;
+				left: 52%;
+				top: 65vh;
+			}
+			.close{
+				width: 5px;
+				height: 2vh;
+				border: 1px solid gray;
+				background-color: red;
+				border-radius: 0 0.5em 0.5em 0;
+				position: absolute;
+				left: 52%;
+				top: 68vh;
+			}
+		</style>
+		<script>
+			function m1() {
+				document.getElementById("no1").style.transition = "2s";
+				document.getElementById("no1").style.boxShadow = "0px 0px 200px 100px red";
+				document.getElementById("no2").style.boxShadow = "0px 0px 0px 0px green";
+				document.getElementById("no3").style.boxShadow = "0px 0px 0px 0px yellow";
+			}
+ 
+			function m2() {
+				document.getElementById("no2").style.boxShadow = "0px 0px 200px 100px green";
+				document.getElementById("no1").style.boxShadow = "0px 0px 0px 0px red";
+				document.getElementById("no3").style.boxShadow = "0px 0px 0px 0px yellow";
+				document.getElementById("no2").style.transition = "2s";
+			}
+ 
+			function m3() {
+				document.getElementById("no3").style.boxShadow = "0px 0px 200px 100px yellow";
+				document.getElementById("no2").style.boxShadow = "0px 0px 0px 0px green";
+				document.getElementById("no1").style.boxShadow = "0px 0px 0px 0px red";
+				document.getElementById("no3").style.transition = "2s";
+			}
+ 
+			var num = 1;
+			var count = 0;
+			
+			function ms() {
+				switch (num) {
+					case 1:
+						m1();
+						num++;
+						break;
+					case 2:
+						m3();
+						if (count==0) {
+							num++;
+							count++;
+						} else{
+							num--;
+							count--;
+						}
+						break;
+					case 3:
+						m2();
+						num--;
+						break;
+				}
+			}
+			var count1=0;
+			var start = null;
+			function b1(){
+				if(count1==0){
+					count1=1;
+					start=setInterval(ms, 2000);
+				}
+			}
+			function b2(){
+				if (count1==1) {
+					count1=0;
+					clearInterval(start);
+				}
+			}
+ 
+		</script>
+	</head>
+	<body>
+		<div class="all">
+			<div class="nos">
+				<div id="no1" class="no1"></div>
+				<div id="no3" class="no3"></div>
+				<div id="no2" class="no2"></div>
+			</div>
+			<div class="gan"></div>
+			<input type="button" id="open" class="open" onclick="b1()" />
+			<input type="button" id="close" class="close" onclick="b2()" />
+		</div>
+	</body>
+</html>

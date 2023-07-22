@@ -1,0 +1,264 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>站台</title>  
+    <style>
+        html{   
+            width: 100%;   
+            height: 100%;   
+            overflow: hidden;   
+            font-style: sans-serif;  
+            border: 0;
+        }   
+        body{   
+            width: 100%;   
+            height: 100%;   
+            font-family: 'Open Sans',sans-serif;   
+            margin: 0;   
+            background-image: url("../../static/BGpicture.jpeg");
+            background-size: cover;
+            background-position-x: center;
+        }
+        .tubiao{
+            position: relative;
+        /*            z-index: 3;*/
+            margin-left: 10px;
+            margin-top: 10px;
+        }
+        .station{   
+            position: absolute;   
+            top: 50%;   
+            left:50%;   
+            margin: -200px 0 0 -500px;   
+            width: 1000px;   
+            height: 450px;
+            border: 2px solid #878686;
+            border-radius: 10px;
+        /*            background-color: #fff;*/
+        } 
+        .top{
+            width:1000px;
+            height:280px;
+        /*            background-color: aqua;*/
+            border-bottom:2px solid #878686;
+            display: flex;
+            flex-flow:row wrap;
+            justify-content: space-evenly;
+            align-content: space-evenly;
+        }
+        .info{
+            width:210px;
+            height:100px;
+        /*            text-align: center;*/
+        /*            margin:20px;*/
+            border: 1px solid #878686;
+            border-radius: 10px;
+        /*
+            display: flex;
+            flex-direction:column nowrap;
+            flex-flow:column wrap;
+            justify-content: flex-start;
+        */
+            
+        }
+        .title{
+            height:25px;
+            width:50px;
+            margin-top:8px;
+            margin-left: 10px;
+            margin-bottom: 0px;
+            font-weight: 600;
+        }
+        .show{
+            height:25px;
+            width:190px;
+            margin-top:8px;
+            margin-left: 10px;
+        }
+        .bottom{
+        /*            background-color: aquamarine;*/
+            width: 1000px;
+            height: 170px;
+            position: relative;
+        /*            top:-100px;*/
+        }
+        .b_l{
+            display:inline-block;
+            height:100px;
+            width: 400px;;
+            /* background-color: red; */
+            /* border-right:2px solid #878686; */
+        /*            background-color: antiquewhite;*/
+        }
+        .b_r{
+            display:inline-block;
+            height:100px;
+            width: 570px;
+            /* background-color: aquamarine; */
+        }
+        .title1{
+            text-align: center;
+            height:25px;
+            width:200px;
+            margin-top:8px;
+            margin-left: 10px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        #uavfly{
+            height:50px;
+            width: 50px;
+            border-radius: 25px;
+            background-color: black;
+            margin-left: 83px;
+        }
+        #ifin{
+            height:50px;
+            width: 50px;
+            border-radius: 25px;
+            background-color: black;
+            margin-left: 83px;
+        }
+        #staOK{
+            height:50px;
+            width: 50px;
+            border-radius: 25px;
+            background-color: black;
+            margin-left: 83px;
+        }
+        #conmuOK{
+            height:50px;
+            width: 50px;
+            border-radius: 25px;
+            background-color: black;
+            margin-left: 83px;
+        }
+    </style>
+</head>  
+<body>
+    <div class ="tubiao"> <img src = "../../static/中广核图标.png" alt = "中广核图标" width = "300"/></div>
+
+    <div class="station">   
+        <h2 style="position:relative;margin-top: 5px;text-align: center; margin-bottom: -5px;">无人机信息</h2>
+        <div class="top">
+            <div class="info">
+                <p class="title">电量</p>
+                <div class="show">{{ last_data.Bat }}</div>
+                <div class="show">{{ last_data.time }}</div>
+            </div>
+            <div class="info">
+                <p class="title">经度</p>
+                <div class="show">{{ last_data.Lat }}</div>
+                <div class="show">{{ last_data.time }}</div>
+            </div>
+            <div class="info">
+                <p class="title">纬度</p>
+                <div class="show">{{ last_data.Lng }}</div>
+                <div class="show">{{ last_data.time }}</div>
+            </div>
+            <div class="info">
+                <p class="title">海拔</p>
+                <div class="show">{{ last_data.height }}</div>
+                <div class="show">{{ last_data.time }}</div>
+            </div>
+            <div class="info">
+                <p class="title1">无人机能否起飞</p>
+                <div id="uavfly"></div>
+            </div>
+            <div class="info">
+                <p class="title1">无人机是否在巢</p>
+                <div id="ifin"></div>
+            </div>
+            <div class="info">
+                <p class="title1">机巢工作是否正常</p>
+                <div id="staOK"></div>
+            </div>
+            <div class="info">
+                <p class="title1">通讯是否正常</p>
+                <div id="conmuOK"></div>
+            </div>
+      </div>
+        
+        <div class="bottom">
+            <h2 style="position:relative;margin-top: 5px;text-align: center; margin-bottom: 5px;">巡视站台选择</h2>
+            <div class="b_l">
+                <form action="{% url 'mission_go' last_data.station_id %}" method="post">
+                    {% csrf_token %}
+                    <!-- <select style="width:300px;margin-left:50px;margin-top:0px;" name="path" id="">
+                        <option selected>请选择</option>
+                        <option value="1">路径1</option>
+                        <option value="2">路径2</option>
+                    </select><br/> -->
+                    <span style="margin-left: 60px; font-size: 18px;position:relative;top:0px;">请输入目标巡检位号：</span><input type="text" style="width: 30px;position:relative;top:-2px;" placeholder="场号" name="Chang"><br><br>
+                    <span style="margin-left: 60px; font-size: 18px;position:relative;top:5px;">请输入目标巡检位号：</span><input type="text" style="width: 30px;position:relative;top:0px;" placeholder ="位号" name="Wei">
+                    <input style="position: relative;left:40px;top:-23px" type="submit" value="执行任务"/>
+                </form>
+             </div>   
+            
+            
+            <div class="b_r">
+                <form action="{% url 'picture' last_data.station_id %}" method="post">
+                    {% csrf_token %}
+                    <span style="margin-left: 150px; font-size: 18px;position:relative;top:0px;">请输入希望查看位号：</span><input type="text" style="width: 30px;position:relative;top:-2px;" placeholder="场号" name="Pic_Chang"><br>
+                    <span style="margin-left: 150px; font-size: 18px;position:relative;top:0px;">请输入希望查看位号：</span><input type="text" style="width: 30px;position:relative;top:-2px;" placeholder ="位号" name="Pic_Wei"><br>
+                    <span style="margin-left: 150px; font-size: 18px;position:relative;top:0px;">请输入希望查看日期：</span><input type="text" style="width: 60px;position:relative;top:-2px;" placeholder ="日期" name="Pic_date">
+                    <input style="position: relative;left:30px;top:-33px" type="submit" value="查看图片"/>
+                </form>
+<!--                <button onclick="window.location.href = '{% url 'picture' last_data.station_id%}'">百度</button>-->
+            </div>
+        
+        
+        </div>
+            
+        
+        
+
+    </div>
+    <script language="JavaScript">
+	    setTimeout(function(){location.reload()},50000); 
+        //定时界面刷新
+        //获取数据让灯变成对应颜色
+        // 无人机状态
+        let uaviffly = document.getElementById("uavfly")
+        let uavflystation = {{ last_data.UAViffly }}
+	    if (uavflystation == 0){
+            uaviffly.style.background = "Crimson"
+        }
+        else if( uavflystation == 1){
+            uaviffly.style.background = "#68EE68"
+        }
+
+        //是否在巢
+        let uavifin = document.getElementById("ifin")
+        let ifinstation = {{ last_data.ifin }}
+	    if (ifinstation == 0){
+            uavifin.style.background = "Crimson"
+        }
+        else if( ifinstation == 1){
+            uavifin.style.background = "#68EE68"
+        }
+
+        //母巢工作是否正常
+        let staifOK = document.getElementById("staOK")
+        let staOKstation = {{ last_data.staOK }}
+	    if (staOKstation == 0){
+            staifOK.style.background = "Crimson"
+        }
+        else if( staOKstation == 1){
+            staifOK.style.background = "#68EE68"
+        }
+
+        //通讯是否正常
+        let conmuifOK = document.getElementById("conmuOK")
+        let conmustation = {{ last_data.conmuOK }}
+	    if (conmustation == 0){
+            conmuifOK.style.background = "Crimson"
+        }
+        else if( conmustation == 1){
+            conmuifOK.style.background = "#68EE68"
+        }
+    </script>
+
+</body>  
+</html> 
